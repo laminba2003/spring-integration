@@ -14,18 +14,27 @@
 
     <int:channel id="upperCaseChannel"/>
 
-    <int:channel id="outputChannel"/>
+    <int:publish-subscribe-channel id="outputChannel"/>
 
     <int:transformer id="uppercaseTransformer" ref="transformer" input-channel="inputChannel"
                      method="upperCase" output-channel="upperCaseChannel"/>
 
     <int:service-activator input-channel="upperCaseChannel" ref="helloService" method="sayHello"
-                                   output-channel="outputChannel"/>
+                           output-channel="outputChannel"/>
 
     <int:service-activator input-channel="outputChannel" ref="printerService"/>
 
-    <int:channel id="httpChannel" />
-    
+    <int:publish-subscribe-channel id="httpChannel"/>
+
+    <int-http:inbound-gateway id="inbound.gateway"
+            request-channel="httpChannel"
+            reply-channel="outputChannel"
+            path="/resources/{path}"
+            supported-methods="GET, POST">
+        <int-http:header name="path" expression="#pathVariables.path"/>
+        <int-http:header name="httpMethod" expression="method"/>
+    </int-http:inbound-gateway>
+
     <int-http:outbound-gateway id="outbound.gateway"
                                request-channel="httpChannel" url="http://localhost:9090/{path}"
                                http-method-expression="headers.httpMethod" reply-channel="outputChannel"
@@ -33,23 +42,5 @@
         <int-http:uri-variable name="path" expression="headers.path"/>
     </int-http:outbound-gateway>
 
-    <int:channel id="browserRequestChannel" />
-    <int:channel id="browserResponseChannel" />
-
-    <int-http:inbound-gateway
-            request-channel="browserRequestChannel"
-            reply-channel="browserResponseChannel"
-            path="/resources/{path}"
-            supported-methods="GET, POST">
-        <int-http:header name="path" expression="#pathVariables.path"/>
-        <int-http:header name="httpMethod" expression="method"/>
-    </int-http:inbound-gateway>
-
-    <int-http:outbound-gateway id="http.gateway"
-                               request-channel="browserRequestChannel" url="http://localhost:9090/{path}"
-                               http-method-expression="headers.httpMethod" reply-channel="browserResponseChannel"
-                               expected-response-type="java.lang.String" rest-template="restTemplate">
-        <int-http:uri-variable name="path" expression="headers.path"/>
-    </int-http:outbound-gateway>
 
 </beans>
