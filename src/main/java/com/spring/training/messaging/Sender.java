@@ -15,7 +15,7 @@ public class Sender {
     MessageChannel channel;
     @Autowired
     @Qualifier("httpChannel")
-    MessageChannel httpSendChannel;
+    MessageChannel httpChannel;
 
     public void sendMessage(String content) {
         Message<String> message = MessageBuilder.withPayload(content).build();
@@ -24,10 +24,10 @@ public class Sender {
 
     public void sendHttpMessage(String path, String method, String... content) {
         String payload = content.length > 0 ? content[0] : "";
-        Message message = MessageBuilder.withPayload(payload)
+        Message<String> message = MessageBuilder.withPayload(payload)
                 .setHeader("path", path)
                 .setHeader("httpMethod", method).build();
-        httpSendChannel.send(message);
+        httpChannel.send(message);
     }
 
 }
