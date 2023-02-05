@@ -12,9 +12,14 @@
 
     <int:channel id="inputChannel"/>
 
+    <int:channel id="upperCaseChannel"/>
+
     <int:channel id="outputChannel"/>
 
-    <int:service-activator input-channel="inputChannel" ref="helloService" method="sayHello"
+    <int:transformer id="uppercaseTransformer" ref="transformer" input-channel="inputChannel"
+                     method="upperCase" output-channel="upperCaseChannel"/>
+
+    <int:service-activator input-channel="upperCaseChannel" ref="helloService" method="sayHello"
                                    output-channel="outputChannel"/>
 
     <int:service-activator input-channel="outputChannel" ref="printerService"/>

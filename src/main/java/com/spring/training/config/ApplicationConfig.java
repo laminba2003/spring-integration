@@ -1,6 +1,6 @@
 package com.spring.training.config;
 
-
+import com.spring.training.messaging.Transformer;
 import com.spring.training.service.HelloService;
 import com.spring.training.service.PrinterService;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -29,6 +29,11 @@ public class ApplicationConfig {
             request.getHeaders().add("Authorization", "Bearer " + "token");
             return execution.execute(request, body);
         }).build();
+    }
+
+    @Bean
+    public Transformer transformer() {
+        return new Transformer();
     }
 
 }
