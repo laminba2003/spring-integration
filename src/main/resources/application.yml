@@ -1,6 +1,12 @@
 spring:
   mvc:
     log-request-details: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+
+          jwk-set-uri: http://localhost:8080/realms/training/protocol/openid-connect/certs
 
 server:
   port: 9090

@@ -6,7 +6,11 @@ import com.spring.training.service.PrinterService;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.server.resource.authentication.BearerTokenAuthentication;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.Objects;
 
 @Configuration
 public class ApplicationConfig {
@@ -24,7 +28,10 @@ public class ApplicationConfig {
     @Bean
     public RestTemplate restTemplate(RestTemplateBuilder builder) {
         return builder.additionalInterceptors((request, body, execution) -> {
-            request.getHeaders().add("Authorization", "Bearer " + "token");
+            BearerTokenAuthentication authentication = (BearerTokenAuthentication) SecurityContextHolder.getContext().getAuthentication();
+            if (Objects.nonNull(authentication)) {
+                request.getHeaders().add("Authorization", "Bearer " + authentication.getToken().getTokenValue());
+            }
             return execution.execute(request, body);
         }).build();
     }
