@@ -1,4 +1,4 @@
-package com.spring.training.messaging;
+package com.spring.training.messaging.console;
 
 import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
@@ -6,15 +6,13 @@ import org.springframework.stereotype.Component;
 
 @Component
 @AllArgsConstructor
-public class Runner implements CommandLineRunner {
+public class ConsoleRunner implements CommandLineRunner {
 
-    final Sender sender;
+    final ConsoleSender sender;
 
     @Override
     public void run(String... args) {
         sender.sendMessage("John Doe");
-        sender.sendHttpMessage("hello", "GET");
-        sender.sendHttpMessage("hello", "POST", "John Doe");
     }
 
 }
