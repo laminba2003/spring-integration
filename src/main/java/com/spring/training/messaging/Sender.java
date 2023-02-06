@@ -26,7 +26,7 @@ public class Sender {
         String payload = content.length > 0 ? content[0] : "";
         Message<String> message = MessageBuilder.withPayload(payload)
                 .setHeader("path", path)
-                .setHeader("httpMethod", method).build();
+                .setHeader("http_requestMethod", method).build();
         httpChannel.send(message);
     }
 

@@ -32,12 +32,11 @@
             path="/resources/{path}"
             supported-methods="GET, POST">
         <int-http:header name="path" expression="#pathVariables.path"/>
-        <int-http:header name="httpMethod" expression="method"/>
     </int-http:inbound-gateway>
 
     <int-http:outbound-gateway id="outbound.gateway"
                                request-channel="httpChannel" url="http://localhost:9090/{path}"
-                               http-method-expression="headers.httpMethod" reply-channel="outputChannel"
+                               http-method-expression="headers.http_requestMethod" reply-channel="outputChannel"
                                expected-response-type="java.lang.String" rest-template="restTemplate">
         <int-http:uri-variable name="path" expression="headers.path"/>
     </int-http:outbound-gateway>
