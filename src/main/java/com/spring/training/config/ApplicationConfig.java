@@ -34,4 +34,9 @@ public class ApplicationConfig {
         return new Transformer();
     }
 
+    @Bean
+    public BeanProcessor applicationBeanProcessor() {
+        return new BeanProcessor();
+    }
+
 }
