@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 public class HttpSender {
 
     @Autowired
-    @Qualifier("httpChannel")
+    @Qualifier("localHttpChannel")
     MessageChannel httpChannel;
 
     public void sendMessage(String path, String method, String... content) {

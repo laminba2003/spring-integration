@@ -16,7 +16,7 @@
 
     <int:publish-subscribe-channel id="outputChannel"/>
 
-    <int:transformer id="uppercaseTransformer" ref="transformer" input-channel="inputChannel"
+    <int:transformer ref="transformer" input-channel="inputChannel"
                      method="upperCase" output-channel="upperCaseChannel"/>
 
     <int:service-activator input-channel="upperCaseChannel" ref="helloService" method="sayHello"
@@ -24,22 +24,38 @@
 
     <int:service-activator input-channel="outputChannel" ref="printerService"/>
 
-    <int:channel id="httpChannel"/>
+    <int:channel id="localHttpChannel"/>
 
-    <int-http:inbound-gateway id="inbound.gateway"
-            request-channel="httpChannel"
-            reply-channel="outputChannel"
-            path="/resources/{path}"
-            supported-methods="GET, POST">
+    <int-http:inbound-gateway
+                              request-channel="localHttpChannel"
+                              reply-channel="outputChannel"
+                              path="/resources/{path}"
+                              supported-methods="GET, POST">
         <int-http:header name="path" expression="#pathVariables.path"/>
     </int-http:inbound-gateway>
 
-    <int-http:outbound-gateway id="outbound.gateway"
-                               request-channel="httpChannel" url="http://localhost:9090/{path}"
+    <int-http:outbound-gateway
+                               request-channel="localHttpChannel" url="http://localhost:9090/{path}"
                                http-method-expression="headers.http_requestMethod" reply-channel="outputChannel"
                                expected-response-type="java.lang.String" rest-template="restTemplate">
         <int-http:uri-variable name="path" expression="headers.path"/>
     </int-http:outbound-gateway>
 
+    <int:channel id="remoteHttpChannel"/>
+
+    <int-http:inbound-gateway
+            request-channel="remoteHttpChannel"
+            reply-channel="outputChannel"
+            path="/services/{path}"
+            supported-methods="GET, POST">
+        <int-http:header name="path" expression="#pathVariables.path"/>
+    </int-http:inbound-gateway>
+
+    <int-http:outbound-gateway
+            request-channel="remoteHttpChannel" url="http://localhost:9093/{path}"
+            http-method-expression="headers.http_requestMethod" reply-channel="outputChannel"
+            expected-response-type="java.lang.String" rest-template="restTemplate">
+        <int-http:uri-variable name="path" expression="headers.path"/>
+    </int-http:outbound-gateway>
 
 </beans>
