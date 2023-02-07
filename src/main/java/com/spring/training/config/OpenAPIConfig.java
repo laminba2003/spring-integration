@@ -8,7 +8,11 @@ import org.springframework.context.annotation.Configuration;
 public class OpenAPIConfig {
 
     @Bean
-    public GroupedOpenApi remoteService() {
+    public GroupedOpenApi localApi() {
+        return createGroupedOpenApi("hello");
+    }
+    @Bean
+    public GroupedOpenApi remoteApi() {
         return createGroupedOpenApi("remote-service");
     }
     private GroupedOpenApi createGroupedOpenApi(String name) {
