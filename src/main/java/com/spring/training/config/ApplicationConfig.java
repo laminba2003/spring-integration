@@ -28,8 +28,7 @@ public class ApplicationConfig {
     public RestTemplate restTemplate(RestTemplateBuilder builder) {
         return builder.additionalInterceptors((request, body, execution) -> {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            if (authentication instanceof BearerTokenAuthentication) {
-                BearerTokenAuthentication bearerTokenAuthentication = (BearerTokenAuthentication) authentication;
+            if (authentication instanceof BearerTokenAuthentication bearerTokenAuthentication) {
                 request.getHeaders().add("Authorization", "Bearer " + bearerTokenAuthentication.getToken().getTokenValue());
             }
             return execution.execute(request, body);
