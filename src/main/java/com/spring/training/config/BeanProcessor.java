@@ -4,6 +4,7 @@ import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.integration.http.inbound.HttpRequestHandlingMessagingGateway;
 import org.springframework.integration.http.outbound.HttpRequestExecutingMessageHandler;
 import org.springframework.integration.http.support.DefaultHttpHeaderMapper;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 public class BeanProcessor implements BeanPostProcessor {
 
@@ -23,6 +24,10 @@ public class BeanProcessor implements BeanPostProcessor {
             case HttpRequestExecutingMessageHandler handler -> {
                 handler.setHeaderMapper(outboundMapper());
                 yield handler;
+            }
+            case RequestMappingHandlerMapping mapping -> {
+                mapping.setOrder(2);
+                yield mapping;
             }
             default -> bean;
         };
