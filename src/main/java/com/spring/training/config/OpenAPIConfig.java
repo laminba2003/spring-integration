@@ -9,7 +9,7 @@ public class OpenAPIConfig {
 
     @Bean
     public GroupedOpenApi remoteService() {
-        return createGroupedOpenApi("spring-rest");
+        return createGroupedOpenApi("remote-service");
     }
     private GroupedOpenApi createGroupedOpenApi(String name) {
         return GroupedOpenApi.builder()
