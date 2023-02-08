@@ -9,7 +9,7 @@ public class OpenAPIConfig {
 
     @Bean
     public GroupedOpenApi localApi() {
-        return createGroupedOpenApi("hello");
+        return createGroupedOpenApi("apis");
     }
     @Bean
     public GroupedOpenApi remoteApi() {

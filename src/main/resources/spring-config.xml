@@ -10,13 +10,13 @@
        http://www.springframework.org/schema/integration/http
        http://www.springframework.org/schema/integration/http/spring-integration-http-5.2.xsd">
 
-    <int:channel id="inputChannel"/>
+    <int:channel id="helloChannel"/>
 
     <int:channel id="upperCaseChannel"/>
 
     <int:publish-subscribe-channel id="outputChannel"/>
 
-    <int:transformer ref="transformer" input-channel="inputChannel"
+    <int:transformer ref="transformer" input-channel="helloChannel"
                      method="upperCase" output-channel="upperCaseChannel"/>
 
     <int:service-activator input-channel="upperCaseChannel" ref="helloService" method="sayHello"
@@ -35,9 +35,9 @@
     </int-http:inbound-gateway>
 
     <int-http:outbound-gateway
-            request-channel="localHttpChannel" url="http://localhost:9090/{path}"
+            request-channel="localHttpChannel" url="http://localhost:9090/apis/{path}"
             http-method-expression="headers.http_requestMethod" reply-channel="outputChannel"
-            expected-response-type="java.lang.String" rest-template="restTemplate">
+            expected-response-type="java.lang.String" rest-template="restTemplate" >
         <int-http:uri-variable name="path" expression="headers.path"/>
     </int-http:outbound-gateway>
 

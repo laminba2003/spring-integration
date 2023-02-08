@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/hello")
+@RequestMapping("/apis/hello")
 @AllArgsConstructor
 public class HelloController {
     final HelloService helloService;

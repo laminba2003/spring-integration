@@ -12,7 +12,7 @@ public class SecurityConfig {
 
     static final String[] whitelist = {
             "/actuator/**", "/v3/api-docs/**", "/swagger-ui.html", "/webjars/**", "/swagger-ui/**",
-            "/swagger-config", "/hello"
+            "/swagger-config", "/apis/**"
     };
 
     @Bean

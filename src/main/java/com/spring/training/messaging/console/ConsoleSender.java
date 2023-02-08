@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 public class ConsoleSender {
 
     @Autowired
-    @Qualifier("inputChannel")
+    @Qualifier("helloChannel")
     MessageChannel channel;
 
     public void sendMessage(String content) {

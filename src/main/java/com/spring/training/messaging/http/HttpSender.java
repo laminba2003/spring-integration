@@ -14,9 +14,9 @@ public class HttpSender {
     @Qualifier("localHttpChannel")
     MessageChannel httpChannel;
 
-    public void sendMessage(String path, String method, String... content) {
-        String payload = content.length > 0 ? content[0] : "";
-        Message<String> message = MessageBuilder.withPayload(payload)
+    public void sendMessage(String path, String method, Object... content) {
+        Object payload = content.length > 0 ? content[0] : "";
+        Message<Object> message = MessageBuilder.withPayload(payload)
                 .setHeader("path", path)
                 .setHeader("http_requestMethod", method).build();
         httpChannel.send(message);
